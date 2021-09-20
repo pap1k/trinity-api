@@ -1,3 +1,3 @@
 module.exports = {
-    baseUrl = "https://gta-trinity.ru"
+    baseUrl: "https://gta-trinity.ru"
 }

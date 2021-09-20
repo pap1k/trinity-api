@@ -1,7 +1,9 @@
-const axios = require("axios")
+const session = require("./session")
+const cfg = require("../cfg")
 
 module.exports = {
-    get: function(url){
-
+    get: async function(url = cfg.baseUrl, params = {}){
+        const resp = await session.get(url, params)
+        return resp
     }
 } 
