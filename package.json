@@ -1,0 +1,15 @@
+{
+  "name": "trinity-api",
+  "version": "1.0.0",
+  "description": "Easy working with gta-trinity.ru",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "axios",
+    "api"
+  ],
+  "author": "pap1k <igonnasleep@vk.com>",
+  "license": "ISC"
+}
