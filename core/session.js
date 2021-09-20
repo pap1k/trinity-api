@@ -1,7 +1,8 @@
 const axios = require("axios")
 const cfg = require("../cfg")
+const encodeUrl = require("../utils/encodeUrl")
 
-module.exports = class Session{
+ class Session{
     constructor(){
         this.session = axios.create({baseUrl: cfg.baseUrl})
         this.ready = false
@@ -13,8 +14,14 @@ module.exports = class Session{
         this.ready = true
         return this.session.defaults.headers.Cookie
     }
-    get(url = cfg.baseUrl, params = {}){
-        const response = this.session.get(url, params)
+    get(url = cfg.baseUrl, params = {}, conf = {}){
+        const response = this.session.get(url, params, conf)
         return response
     }
+    post(url = cfg.baseUrl, params = {}, conf = {}){
+        const resp = this.session.post(url, encodeUrl(params), conf)
+        return resp
+    }
 }
+const session = new Session()
+module.exports = session
