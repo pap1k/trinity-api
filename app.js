@@ -1,7 +1,8 @@
-const api = require("./core/api")
+const API = require("./core/api")
 
 async function start(){
-    const r = await api.test()
-    console.log(r.data)
+    const api = new API()
+    await api.init()
+    //const r = await api.test()
 }
 start()
