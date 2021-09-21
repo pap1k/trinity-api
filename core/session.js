@@ -7,9 +7,16 @@ const encodeUrl = require("../utils/encodeUrl")
         this.session = axios.create({baseUrl: cfg.baseUrl})
         //this.ready = false
     }
+    get cookie(){
+        return this.session.defaults.headers.Cookie
+    }
     setCookie(name, value, expires, path){
         const cookie = `${name}=${value}; expires=${expires}; path=${path}`
-        this.session.defaults.headers.Cookie += cookie
+        if (this.session.defaults.headers.Cookie === undefined)
+            this.session.defaults.headers.Cookie = cookie
+        else
+            this.session.defaults.headers.Cookie += cookie
+            
         return this.session.defaults.headers.Cookie
     }
     get(url = cfg.baseUrl, params = {}, conf = {}){
