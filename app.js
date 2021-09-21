@@ -14,4 +14,4 @@ async function start(){
         console.log(err.response.status)
     })
 }
-start()
+module.exports = start
