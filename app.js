@@ -11,7 +11,8 @@ async function start(){
         })
         console.log(resp)
     }, err => {
-        console.log(err.response.status)
+        console.log(err.response !== undefined ? err.response.status : err)
     })
 }
+
 module.exports = start
