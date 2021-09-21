@@ -14,7 +14,7 @@ module.exports = class API{
         for(let e of found){
             words.push(e[1])
         }
-        return session.setCode(getCode(words))
+        return session.setCookie("REACTLABSPROTECTION", getCode(words), "Thu, 31-Dec-37 23:55:55 GMT", "/")
     }
     async get(){
         return session.get()

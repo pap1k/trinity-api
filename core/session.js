@@ -7,12 +7,6 @@ const encodeUrl = require("../utils/encodeUrl")
         this.session = axios.create({baseUrl: cfg.baseUrl})
         //this.ready = false
     }
-    setCode(code) {
-        this.ddos = code
-        this.setCookie("REACTLABSPROTECTION", this.ddos, "Thu, 31-Dec-37 23:55:55 GMT", "/")
-        //this.ready = true
-        return this.session.defaults.headers.Cookie
-    }
     setCookie(name, value, expires, path){
         const cookie = `${name}=${value}; expires=${expires}; path=${path}`
         this.session.defaults.headers.Cookie += cookie
