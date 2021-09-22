@@ -7,6 +7,7 @@ module.exports = class API{
     constructor(){
         
     }
+
     async init(){
         const resp = await session.get()
         const found = [...resp.data.matchAll(/"(\w+)"/g)]
@@ -14,20 +15,23 @@ module.exports = class API{
         for(let e of found){
             words.push(e[1])
         }
-        return session.setCookie("REACTLABSPROTECTION", getCode(words), "Thu, 31-Dec-37 23:55:55 GMT", "/")
+        session.setCookie("REACTLABSPROTECTION", getCode(words))
+        const r = await session.get()
+        return session.setCookie("ips4_IPSSessionFront", r.headers['set-cookie'][0].match(/ips4_IPSSessionFront=(\w+);/)[1])
     }
+
     async get(){
         return session.get()
     }
+
     async auth(uname, pwd) {
         const get = await this.get()
-
         const csrf = get.data.match(/csrfKey: "(\w+)"\,/)
         const ref = get.data.match(/<input type="hidden" name="ref" value="(\w+)=">/)
 
         await this.get("https://gta-trinity.ru/forum/login")
-
-        const resp = session.post(
+        session.setCookie("ips4_hasJS", "true")
+        session.post(
             cfg.baseUrl+"/forum/login",
             {
                 auth: uname,
@@ -38,12 +42,17 @@ module.exports = class API{
                 ref: ref[1]+"="
             },
             {
-                headers: {
-                    "Referer": "https://gta-trinity.ru/forum/?_fromLogin=1&_fromLogout=1",
-                }
+                maxRedirects: 0,
+            }).
+            then(non301 => {}, ok => {
+                console.log()
+                ok.response.headers['set-cookie'].forEach(cookie => {
+                    let f = cookie.match(/(\w+)=(\w+);/)
+                    session.setCookie(f[1], f[2])
+                })
             })
-        return resp
     }
+
     async test(){
         const r = session.get()
         return r
