@@ -6,8 +6,11 @@ const session = require("./core/session")
 async function start(){
     const api = new API()
     await api.init()
-    api.auth(login.login, login.password)
-    
+    await api.auth(login.login, login.password, login.cookie)
+    const headers = await api.getPage()
+    headers.forEach(header => {
+        console.log(header.text.trim())
+    })
 }
 
 module.exports = start

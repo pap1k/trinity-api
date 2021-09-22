@@ -9,13 +9,13 @@ const encodeUrl = require("../utils/encodeUrl")
         this.cookies = []
     }
     get cookie(){
-        return this.#makeCookieStr()
+        return this.makeCookieStr()
     }
     setCookie(name, value){
         this.cookies.push([name, value])
         return this.cookie
     }
-    #makeCookieStr(){
+    makeCookieStr(){
         if(this.cookies.length === 0)
             return ""
         else{
@@ -29,14 +29,14 @@ const encodeUrl = require("../utils/encodeUrl")
     get(url = cfg.baseUrl, conf = {}){
         if(conf.headers === undefined)
             conf.headers = {}
-        conf.headers.Cookie = this.#makeCookieStr()
+        conf.headers.Cookie = this.makeCookieStr()
         const response = this.session.get(url, conf)
         return response
     }
     post(url = cfg.baseUrl, params = {}, conf = {}){
         if(conf.headers === undefined)
             conf.headers = {}
-        conf.headers.Cookie = this.#makeCookieStr()
+        conf.headers.Cookie = this.makeCookieStr()
         const resp = this.session.post(url, encodeUrl(params), conf)
         return resp
     }
