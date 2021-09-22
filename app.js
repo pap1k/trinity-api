@@ -8,7 +8,7 @@ async function start(){
     await api.init()
     await api.auth(login.login, login.password, login.cookie)
     const headers = await api.getPage()
-    headers.forEach(header => {
+    headers.querySelectorAll("h4").forEach(header => {
         console.log(header.text.trim())
     })
 }

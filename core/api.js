@@ -68,6 +68,6 @@ module.exports = class API{
 
     async getPage(page){
         const resp = await session.get(page)
-        return html.parsePage(resp.data).querySelectorAll("h4")
+        return html.parsePage(resp.data)
     }
 }
