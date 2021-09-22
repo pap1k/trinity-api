@@ -18,7 +18,7 @@ module.exports = {
                 const mess = topic.querySelector("dt.ipsDataItem_stats_number")
                 const topname = topic.querySelector("h4.ipsDataItem_title")
                 const author = topic.querySelector("li.ipsType_blendLinks")
-                
+
                 obj.topics.push({
                     head: topname.text.trim(),
                     url: topname.childNodes[1].getAttribute("href"),
@@ -27,7 +27,8 @@ module.exports = {
                         topic: topic.querySelector("a.ipsContained").text.trim(),
                         author: {
                             nick: author.text.trim().replace(/\n/g, "").replace("Автор: ", ""),
-                            id: author.childNodes[1].getAttribute("href").match(/profile\/(\d+)\-/)[1]
+                            id: author.childNodes[1].getAttribute("href").match(/profile\/(\d+)\-/)[1],
+                            photo: topic.querySelector("a.ipsUserPhoto").childNodes[1].getAttribute("src"),
                         },
                         time: topic.querySelector("time").text.trim()
                     }
