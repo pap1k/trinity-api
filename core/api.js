@@ -50,12 +50,16 @@ module.exports = class API{
                     console.log()
                     ok.response.headers['set-cookie'].forEach(cookie => {
                         let f = cookie.match(/(\w+)=(\w+);/)
+                        if(f[1] == "ips4_member_id")
+                            session.userId = f[2]
                         session.setCookie(f[1], f[2])
                     })
                 })
         }
         else{
             for (const [key, value] of Object.entries(cookiedata)) {
+                if(key == "ips4_member_id")
+                    session.userId = value
                 session.setCookie(key, value)
             }
         }
@@ -66,8 +70,24 @@ module.exports = class API{
         return r
     }
 
-    async getPage(page){
-        const resp = await session.get(page)
-        return html.parsePage(resp.data)
+    /**
+     * @param {Number} profile Profile id
+     */
+    async getProfileInfo(profile = null){
+        const черточки = '-------'
+        let userId
+        if(profile)
+            userId = profile + черточки.slice(0, черточки.length - profile.toString().length)
+        else
+            userId = session.userId + черточки.slice(0, черточки.length - session.userId.toString().length)
+        console.log(userId)
+        const resp = await session.get(cfg.baseUrl+"/forum/profile/"+(profile ? profile : userId)+"/")
+        return html.parseUser(resp.data)
+
+    }
+
+    async getMainPage(){
+        const resp = await session.get()
+        return html.parseMainPage(resp.data)
     }
 }

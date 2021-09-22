@@ -7,6 +7,7 @@ const encodeUrl = require("../utils/encodeUrl")
         this.session = axios.create({baseUrl: cfg.baseUrl})
         //this.ready = false
         this.cookies = []
+        this.userId = 0
     }
     get cookie(){
         return this.makeCookieStr()
@@ -24,7 +25,7 @@ const encodeUrl = require("../utils/encodeUrl")
                 cookiestr += e[0]+"="+e[1]+";"
             })
             return cookiestr
-        } 
+        }
     }
     get(url = cfg.baseUrl, conf = {}){
         if(conf.headers === undefined)

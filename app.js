@@ -6,10 +6,10 @@ async function start(){
     await api.init()
     await api.auth(login.login, login.password, login.cookie)
     
-    const headers = await api.getPage()
-    headers.querySelectorAll("h4").forEach(header => {
-        console.log(header.text.trim())
-    })
+    // const profile = await api.getProfileInfo()
+    const mainpage = await api.getMainPage()
+
+    console.log(JSON.stringify(mainpage))
 }
 
 module.exports = start
