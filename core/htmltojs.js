@@ -40,6 +40,37 @@ module.exports = {
 
         return {items}
     },
+    parseTopic: html => {
+        const root = HTMLParser.parse(html).querySelector("div#ipsLayout_mainArea")
+        let ret = {
+            head: root.querySelector("h1.ipsType_pageTitle").text.trim(),
+            topics : []
+        }
+        const topiclist = root.querySelectorAll("li.ipsDataItem")
+        topiclist.forEach(topic => {
+            let obj = {}
+            if(topic.classList.contains("vn_pinned_topic"))
+                obj.pinned = true
+            
+            const topname = topic.querySelector("span.ipsType_break").childNodes[1]
+            const messdata = topic.querySelector("ul.ipsDataItem_stats")
+            const lastposter = topic.querySelector("ul.ipsDataItem_lastPoster")
+            
+            obj.messages_count = parseInt(messdata.querySelector("span.ipsDataItem_stats_number").text.trim())
+            obj.head = topname.text.trim(),
+            obj.last_message = {
+                url: topname.getAttribute("href"),
+                author: {
+                    nick: lastposter.querySelector("a.ipsType_break").text.trim(),
+                    id: lastposter.querySelector("a").getAttribute("href").match(/profile\/(\d+)\-/)[1],
+                    photo: lastposter.querySelector("img").getAttribute("src")
+                },
+                time: lastposter.querySelector("time").text.trim()
+            }
+            ret.topics.push(obj)
+        })
+        return ret
+    },
     parseUser : html => {
         const root = HTMLParser.parse(html)
         return {

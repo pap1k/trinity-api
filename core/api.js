@@ -86,6 +86,13 @@ module.exports = class API{
 
     }
 
+    async getTopic(url){
+        if(!url)
+            return null
+        const resp = await session.get(url)
+        return html.parseTopic(resp.data)
+    }
+
     async getMainPage(){
         const resp = await session.get()
         return html.parseMainPage(resp.data)
